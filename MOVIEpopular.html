@@ -1,0 +1,134 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Popular</title>
+    <style>
+body{
+        background-color: black;
+}
+
+       .img{
+           width:100%;
+           height:50%;
+       }
+       #data{
+           color:whitesmoke;
+           display: grid;
+           grid-template-columns: 23% 23% 23% 23%;
+           gap:2%;
+           height:auto;
+           justify-self: center;
+           font-size: medium;
+       }
+       .divs{
+           overflow:hidden;
+           height:600px;
+       }
+       #show{
+          justify-content: center;
+          display:flex;
+          margin:5%;
+       }
+       .divs2{
+           display: inline-block; 
+           color:white; 
+           padding:2%;
+           font-size: large;
+           margin-top: 20%;
+       }
+
+    </style>
+</head>
+<body>  
+    <button><a href="MOVIE3.html">Go back</a></button><h1 style="color:bisque;">Popular Movies</h1>   
+    <div id="show"></div>
+    <div id="data"></div>    
+
+
+    <script>
+
+let showparent=document.getElementById("show");
+let parent=document.getElementById("data");
+
+async function popular(){
+
+let res = await fetch("https://api.themoviedb.org/3/movie/popular?api_key=8f5917bb648b2cd81a757a6ea21daf5e");// 1 data at a time , thats why we use ${input} and not using forEach loop
+
+let Data=await res.json();
+console.log(Data.results);
+show(Data.results);
+}
+
+
+
+function show(movies){
+    parent.innerHTML=null;
+movies.forEach(function(movie){   
+    let divs=document.createElement("div");
+    divs.setAttribute("class","divs");
+
+    let image=document.createElement("img");
+    image.setAttribute("class","img");
+    image.src=`https://image.tmdb.org/t/p/w500/${movie.poster_path}`;
+
+    let title=document.createElement("p");
+    title.textContent="Title:- "+movie.title;
+
+    let relDate=document.createElement("p");
+    relDate.textContent="Release Date:- "+movie.release_date;
+
+    let imdb=document.createElement("p");
+    imdb.textContent="IMDB:- "+movie.vote_average;
+
+    let overview=document.createElement("p");
+    overview.textContent="Plot:- "+movie.overview;
+
+    divs.onclick=function(){
+        details(movie);
+    }
+
+    divs.append(image,title,imdb,relDate,overview);
+    parent.append(divs);
+})    
+}
+
+
+function details(m){
+    showparent.innerHTML=null;
+ 
+var divs2=document.createElement("div");
+divs2.setAttribute("class","divs2");
+
+var image2=document.createElement("img");
+image2.setAttribute("class","img2");
+image2.src=`https://image.tmdb.org/t/p/w500/${m.poster_path}`;
+
+let title2=document.createElement("p");
+    title2.textContent="Title:- "+m.title;
+
+let relDate2=document.createElement("p");
+    relDate2.textContent="Release Date:- "+m.release_date;
+
+let imdb2=document.createElement("p");
+    imdb2.textContent="IMDB:- "+m.vote_average;
+
+let overview2=document.createElement("p");
+    overview2.textContent="Plot:- "+m.overview;
+
+
+divs2.append(title2,relDate2,imdb2,overview2);
+showparent.append(image2,divs2);
+
+}
+
+
+popular();
+
+    </script>
+</body>
+</html>
