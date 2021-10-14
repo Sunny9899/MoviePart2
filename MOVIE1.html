@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie</title>
+    <style>
+
+        body{
+        background-color: black;
+       }
+       .searchbox{
+           display: flex;
+           align-items: center;
+           justify-content: center;          
+       }
+       #search2:hover{
+        padding:1%;
+        width: 50%;
+        height:200px;
+        color:white;
+        border:1px solid black;
+        overflow:scroll;
+        border-top: none;       
+        margin-left: 17.3%; 
+       }
+       .searchbox>input{
+           padding:1%;
+           width: 50%;
+           background-color: white;
+           border:none;
+           outline: none;
+       }
+       .searchbox>button{
+           padding:1% 5%;
+           color: white;
+           font-weight: 600;
+           background-color: red;
+           border:none;
+       }
+       #data{
+           color:whitesmoke;
+           width:100%;
+           justify-self: center;
+           font-size: medium;
+           display: grid;
+           grid-template-columns: 20% 20% 20% 20%;
+           gap:5%;
+       }
+       #ind{
+           justify-content: center;
+           text-align: center;
+           display: flex;
+           margin-bottom: 10%;
+           margin-top: 5%;
+           text-align: left;
+        }
+        .img2{
+            width:200px;
+            height:300px 
+        }
+        .divs2{
+            color:whitesmoke;
+            margin-top: 8%;
+            margin-left: 3%;          
+        }
+
+    </style>
+</head>
+<body>
+    <div class="searchbox">
+        <input oninput="debounce(main,1000)" id="search" type="text" placeholder="What's in your mind today?"/>
+        <button onclick="search()">Search</button>   
+    </div>       
+    <div id="search2"></div>     
+    <div id="ind"></div>    
+    <div id="data"></div> 
+    <script>
+ let parent=document.getElementById("data");
+ let secparent=document.getElementById("ind");
+ let thirdparent=document.getElementById("search2");
+
+//To show movies on screen
+async function search(){
+    try{
+var input=document.getElementById("search").value;
+
+var res = await fetch(`http://www.omdbapi.com/?apikey=440690ce&s=${input}`);
+
+var Data=await res.json();
+//console.log(Data); 
+appendMovies(Data.Search); 
+
+    }
+    catch{
+        parent.innerHTML=null;
+        secparent.innerHTML=null;
+    let img=document.createElement("img");
+    img.src="https://i.pinimg.com/originals/ef/8b/bd/ef8bbd4554dedcc2fd1fd15ab0ebd7a1.gif";
+    secparent.append(img);
+    }
+}
+
+
+function appendMovies(movies){
+    parent.innerHTML=null;
+    secparent.innerHTML=null;
+
+movies.forEach(function(movie){   
+    var divs=document.createElement("div");
+
+    var image=document.createElement("img");
+    image.setAttribute("class","img");
+    image.src=movie.Poster;
+
+    var title=document.createElement("p");
+    title.textContent="Title:- "+movie.Title;
+
+    var relDate=document.createElement("p");
+    relDate.textContent="Release Date:- "+movie.Year;
+
+
+    var btn=document.createElement("button");
+    btn.textContent="Go to Movie";
+    btn.onclick=function(){
+        details(movie);
+      }
+
+
+    divs.append(image,title,relDate,btn);
+    parent.append(divs);
+    })
+}
+
+
+function details(m){
+     secparent.innerHTML=null;
+ 
+var divs2=document.createElement("div");
+divs2.setAttribute("class","divs2");
+
+var image2=document.createElement("img");
+image2.setAttribute("class","img2");
+image2.src=m.Poster;
+
+var title2=document.createElement("p");
+title2.textContent="Title:- "+m.Title;
+
+var relDate2=document.createElement("p");
+relDate2.textContent="Release Date:- "+m.Year;  
+
+divs2.append(title2,relDate2);
+secparent.append(image2,divs2);
+
+}
+
+
+
+
+//Debouncing Part
+var timerId;
+
+async function searchMovies(movie_name){ 
+try{
+    let res=await fetch(`http://www.omdbapi.com/?apikey=440690ce&s=${movie_name}`);
+
+    let data=await res.json();
+    return data;
+}
+catch(e){
+    console.log(e);
+}
+}
+
+
+function appendMovies2(movies){ 
+
+if(movies===undefined){
+    return false;
+}
+thirdparent.innerHTML=null; 
+movies.forEach(function(movie){
+
+    let p=document.createElement("p");
+    p.textContent=movie.Title;
+
+    thirdparent.append(p);
+
+})
+
+}
+
+    
+async function main(){
+thirdparent.innerHTML=null; // to make sure the debounced data gets updated with respect to updaation on screen
+    let name=document.getElementById("search").value;
+
+
+
+    let res=await searchMovies(name);
+    
+    let movie_data=res.Search;
+
+    appendMovies2(movie_data);
+}  
+
+
+//Debouncing
+//debounce would be called at input
+function debounce(func,delay){
+
+    if(timerId){
+clearTimeout(timerId);
+    }
+
+ timerId= setTimeout(function(){
+
+func();
+
+  },delay)
+
+}
+    </script>
+</body>
+</html>
