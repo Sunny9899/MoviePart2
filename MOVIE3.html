@@ -104,7 +104,7 @@
         <input oninput="debounce(main,1000)" id="search" type="text" placeholder="What's in your mind today?"/>
         <button onclick="search()">Search</button>   
         <h3 style="margin-left: 5% ;"><a href="MOVIEpopular.html">Popular Movies</a></h3>
-        <h3><a href="signUpMovie.html" id="signin"> </a>Sign In</h3>
+        <h3><a href="signUpMovie.html" id="signin">Sign In </a></h3>
     </div>       
     <div id="search2"></div>     
     <div id="ind"></div>    
@@ -283,9 +283,6 @@ let nameChange=document.getElementById("signin");
     var a= localStorage.getItem("active");  
        if(a!=null){
             nameChange.textContent=a;
-       }
-       else{
-           nameChange.textContent="SignIn";
        }
 
 
