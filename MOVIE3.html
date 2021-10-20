@@ -8,7 +8,7 @@
     <style>
 
         body{
-        background-color: black;
+        background-color: rgb(24, 24, 24);
        }
        .searchbox{
            display: flex;
@@ -16,13 +16,17 @@
            justify-content: center;          
        }
        #search2{
-        padding:1%;
+        margin:1%;
         width: 50%;
-        height:200px;
+        height:2px;
         color:white;
-        overflow:scroll;
+        overflow:hidden;
+        overflow-y:scroll;
         border-top: none;       
-        margin-left: 10%; 
+        margin-left: 5%; 
+       }
+       #search2:hover{
+           height:200px;
        }
        .searchbox>input{
            padding:1%;
@@ -89,6 +93,9 @@
             width:20%;
             height:100%;
         }
+        #signin{
+            margin-left: 50px;
+        }
 
     </style>
 </head>
@@ -96,7 +103,8 @@
     <div class="searchbox">
         <input oninput="debounce(main,1000)" id="search" type="text" placeholder="What's in your mind today?"/>
         <button onclick="search()">Search</button>   
-        <h3 style="color:bisque; margin-left: 5% ;"><a href="MOVIEpopular.html">Popular Movies</a></h3>
+        <h3 style="margin-left: 5% ;"><a href="MOVIEpopular.html">Popular Movies</a></h3>
+        <h3><a href="signUpMovie.html" id="signin"> </a>Sign In</h3>
     </div>       
     <div id="search2"></div>     
     <div id="ind"></div>    
@@ -271,7 +279,14 @@ func();
 }
 
 
-
+let nameChange=document.getElementById("signin");
+    var a= localStorage.getItem("active");  
+       if(a!=null){
+            nameChange.textContent=a;
+       }
+       else{
+           nameChange.textContent="SignIn";
+       }
 
 
  </script>
