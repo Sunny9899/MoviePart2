@@ -6,6 +6,7 @@ A movie app containing SignUp-SignIn functionality along with debouncing and a s
 SignUp-SignIn Page:
 
 Popular Movies: 
-![](https://drive.google.com/file/d/1dsSqMTOfzHWH-CtfDDeGeV4ntChYdGYo/view?usp=sharing)
+![bhbj](https://drive.google.com/file/d/1dsSqMTOfzHWH-CtfDDeGeV4ntChYdGYo/view?usp=sharing)
+
 Results with Debouncing:  
 
